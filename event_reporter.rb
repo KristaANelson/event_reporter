@@ -7,6 +7,3 @@ $LOAD_PATH.unshift(data_dir)
 require 'cli'
 
 CLI.new($stdin, $stdout).call
-
-
-taddaaaa
