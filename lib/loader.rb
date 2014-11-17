@@ -1,8 +1,6 @@
 require 'pry'
 require 'CSV'
 
-# require_relative '../event_attendees.csv'
-
 class Loader
   attr_reader :file_name
 def initialize
@@ -13,9 +11,9 @@ end
     contents = CSV.open("./data/#{@file_name}", headers: true)
   end
 
-  def self.process_load(property)
-    @file_name = "event_attendees.csv" if property == nil
-    @file_name = property
+  def self.process_load(remaining_input)
+    @file_name = "event_attendees.csv" if remaining_input == []
+    @file_name = remaining_input[0]
     self.load_file
   end
 end

@@ -4,7 +4,7 @@ require 'pry'
 
 
 class CLI
-  attr_reader :instream, :outstream, :message, :input
+  attr_reader :instream, :outstream, :message, :input, :remaining_input
   attr_accessor :command, :property
 
   def initialize(instream, outstream)
@@ -13,21 +13,21 @@ class CLI
     @input = ""
     @message = Messages.new
     @command = ''
+    @remaining_input = []
   end
-  #
+
   def call
     outstream.puts message.intro_message
     until exit?
       @input = instream.gets.strip
-      command_clean_up
+      determine_command
       process_initial_commands
     end
   end
 
   def process_initial_commands
     case
-    when load?            then Loader.process_load(property)
-      binding.pry
+    when load?            then Loader.process_load(@remaining_input)
     when help?            then process_help
     when queue?           then process_queue
     when find?            then process_find
@@ -36,8 +36,9 @@ class CLI
     end
   end
 
-  def command_clean_up
-  self.command, self.property = @input.downcase.split
+  def determine_command
+  @remaining_input = @input.downcase.split
+  self.command = @remaining_input.delete_at(0)
   end
 
   def help?
