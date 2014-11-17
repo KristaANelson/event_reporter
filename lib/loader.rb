@@ -12,8 +12,11 @@ end
   end
 
   def self.process_load(remaining_input)
-    @file_name = "event_attendees.csv" if remaining_input == []
-    @file_name = remaining_input[0]
+    if remaining_input == []
+      @file_name = "event_attendees.csv"
+    else
+      @file_name = remaining_input[0]
+    end
     self.load_file
   end
 end
