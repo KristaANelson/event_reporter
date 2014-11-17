@@ -1,11 +1,11 @@
-def Messages
+class Messages
 
   def help
     "Hey Im a help method!"
   end
 
-  def intr_message
-    "Welcome to Entry Repository, where the frustration is endless and you may get something you want."
+  def intro_message
+    "Welcome to Entry Repository. Please enter your first commmand."
   end
 
   def exit
@@ -13,6 +13,6 @@ def Messages
   end
 
   def invalid_message
-    "Invalid entry, please "
-
+    "Invalid entry, please try again. "
+  end
 end
