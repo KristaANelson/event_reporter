@@ -74,4 +74,7 @@ class Messages
   def empty_queue
     "Sorry your queue is empty please try your search again by using 'find by'"
   end
+
+  def new
+  end
 end
