@@ -1,27 +1,32 @@
-require_relative 'messages'
-require_relative 'loader'
-require_relative 'helper'
-require 'pry'
-
-
+require 'messages'
+require 'loader'
+require 'helper'
+require 'results_queue'
+require 'finder'
+# require 'pry'
 class CLI
-  attr_reader :instream, :outstream, :message, :input, :remaining_input, :loader
-  attr_accessor :command, :property
+  attr_reader :instream, :outstream, :message, :input, :remaining_input, :helper, :loader, :finder, :results_queue
+  attr_accessor :command, :entries
 
   def initialize(instream, outstream)
-    @instream = instream
-    @outstream = outstream
-    @input = ""
-    @message = Messages.new
-    @loader = Loader.new
-    @helper = Helper.new(instream, outstream)
-    @command = ''
+    @instream        = instream
+    @outstream       = outstream
+    @input           = ""
+    @message         = Messages.new
+    @helper          = Helper.new(outstream, instream)
+    @command         = ""
     @remaining_input = []
+    @loader          = Loader.new(instream, outstream)
+    @entries         = loader.entries
+    @finder          = Finder.new(@entries)
+    @results_queue   = ResultsQueue.new(instream, outstream)
+    @results         = []
   end
 
   def call
     outstream.puts message.intro_message
     until exit?
+      outstream.print message.next_command
       @input = instream.gets.strip
       determine_command
       process_initial_commands
@@ -29,14 +34,24 @@ class CLI
   end
 
   def process_initial_commands
-    case
-    when load?            then loader.process_load(@remaining_input)
-    when help?            then process_help
-    when queue?           then process_queue
-    when find?            then process_find
-    when exit?            then outstream.puts message.exit
+    if load?
+      @loader.process_load(@remaining_input)
+    elsif queue?
+        @results_queue.process_queue(@remaining_input, @results)
+        update_results(results_queue.queue_results)
+    elsif help?
+      @helper.process_help(@remaining_input)
+    elsif find?
+      @finder.process_find(@remaining_input)
+      update_results(finder.finder_results)
+    elsif exit?
+      outstream.puts message.exit
     else  outstream.puts message.invalid_message
     end
+  end
+
+  def update_results(new_results)
+    @results = new_results
   end
 
   def determine_command
@@ -63,5 +78,4 @@ class CLI
   def exit?
     command == "exit"
   end
-
 end
