@@ -1,10 +1,11 @@
 require_relative 'messages'
 require_relative 'loader'
+require_relative 'helper'
 require 'pry'
 
 
 class CLI
-  attr_reader :instream, :outstream, :message, :input, :remaining_input
+  attr_reader :instream, :outstream, :message, :input, :remaining_input, :loader
   attr_accessor :command, :property
 
   def initialize(instream, outstream)
@@ -12,6 +13,8 @@ class CLI
     @outstream = outstream
     @input = ""
     @message = Messages.new
+    @loader = Loader.new
+    @helper = Helper.new(instream, outstream)
     @command = ''
     @remaining_input = []
   end
@@ -27,7 +30,7 @@ class CLI
 
   def process_initial_commands
     case
-    when load?            then Loader.process_load(@remaining_input)
+    when load?            then loader.process_load(@remaining_input)
     when help?            then process_help
     when queue?           then process_queue
     when find?            then process_find
