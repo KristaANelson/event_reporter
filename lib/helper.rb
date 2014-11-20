@@ -14,15 +14,15 @@ class Helper
   def process_help(remaining_input)
     @remaining_input = remaining_input
     case
-    when  help?        then help
-    when  find?        then help_find
-    when  search?      then help_search
-    when  load?        then help_load
-    when  queue?       then help_queue
-    when  queue_clear? then help_queue_clear
-    when  queue_count? then help_queue_count
-    when  queue_save?  then help_queue_save
-    when  queue_print? then help_queue_print
+    when  help?        then   help
+    when  find?        then   help_find
+    when  load?        then   help_load
+    when  queue?       then   help_queue
+    when  queue_clear? then   help_queue_clear
+    when  queue_count? then   help_queue_count
+    when  queue_save?  then   help_queue_save
+    when  queue_print? then   help_queue_print
+    else oustream.puts messages.invalid_input.red
     end
   end
 
@@ -31,7 +31,7 @@ class Helper
   end
 
   def load?
-    remaining_input = ["load"]
+    remaining_input == ["load"]
   end
 
   def find?

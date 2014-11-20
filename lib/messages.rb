@@ -1,3 +1,4 @@
+require 'color'
 class Messages
   def help
     "What would you like help on? Please choose from the following options:
@@ -11,7 +12,7 @@ class Messages
   end
 
   def intro_message
-    "Welcome to Entry Repository."
+    "Welcome to Entry Repository.".red
   end
 
   def next_command
@@ -19,7 +20,7 @@ class Messages
   end
 
   def load_message(file_name)
-    "File '#{file_name}' has been loaded."
+    "File '#{file_name}' has been loaded.".yellow
   end
 
   def exit
@@ -49,7 +50,7 @@ class Messages
 
   def help_queue_print
     "'queue print' will take the results from your previous search and display a table with the following information:
-    LAST NAME | FIST NAME | EMAIL | ZIPCODE | CITY | STATE | ADDRESS | PHONE"
+    LAST NAME | FIRST NAME | EMAIL | ZIPCODE | CITY | STATE | ADDRESS | PHONE"
   end
 
   def help_queue
@@ -72,9 +73,7 @@ class Messages
   end
 
   def empty_queue
-    "Sorry your queue is empty please try your search again by using 'find by'"
+    "Sorry your queue is empty please try your search again by using 'find by'".red
   end
 
-  def new
-  end
 end

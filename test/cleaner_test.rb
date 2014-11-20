@@ -23,9 +23,9 @@ class CleanTest < Minitest::Test
 
  def test_it_can_clean_a_state
    cleaner = Cleaner.new
-   state = "co"
+   state = "CO"
    cleaned_state = cleaner.clean_state(state)
-   assert_equal "CO", cleaned_state
+   assert_equal "co", cleaned_state
  end
 
  def test_it_can_clean_a_city

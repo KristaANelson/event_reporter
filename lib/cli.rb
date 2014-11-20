@@ -34,20 +34,24 @@ class CLI
   end
 
   def process_initial_commands
-    if load?
-      @loader.process_load(@remaining_input)
-    elsif queue?
-        @results_queue.process_queue(@remaining_input, @results)
-        update_results(results_queue.queue_results)
-    elsif help?
-      @helper.process_help(@remaining_input)
-    elsif find?
-      @finder.process_find(@remaining_input)
-      update_results(finder.finder_results)
-    elsif exit?
-      outstream.puts message.exit
-    else  outstream.puts message.invalid_message
+    case
+    when load?  then  @loader.process_load(@remaining_input)
+    when queue? then  queue
+    when help?  then  @helper.process_help(@remaining_input)
+    when find?  then  find
+    when exit?  then  outstream.puts message.exit
+    else outstream.puts message.invalid_message
     end
+  end
+
+  def queue
+    @results_queue.process_queue(@remaining_input, @results)
+    update_results(results_queue.queue_results)
+  end
+
+  def find
+    @finder.process_find(@remaining_input)
+    update_results(finder.finder_results)
   end
 
   def update_results(new_results)

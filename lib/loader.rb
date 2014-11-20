@@ -24,8 +24,7 @@ end
  def process_load(remaining_input)
   if remaining_input == []
      @file_name = "event_attendees.csv"
-  elsif
-     File.exists?("./data/#{remaining_input[0]}")  && remaining_input[0]
+  elsif File.exists?("./data/#{remaining_input[0]}")  && remaining_input[0]
     @file_name = remaining_input[0]
   else
     outstream.puts "No file found. Loading default"

@@ -8,7 +8,7 @@ class Entry
     @first_name = cleaner.clean_name(data[:first_name])
     @last_name  = cleaner.clean_name(data[:last_name])
     @email      = cleaner.clean_email(data[:email_address])
-    @phone      = cleaner.clean_phone(data[:homephone])
+    @phone      = data[:phone]
     @street     = data[:street]
     @city       = cleaner.clean_city(data[:city])
     @state      = cleaner.clean_state(data[:state])
