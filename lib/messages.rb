@@ -76,4 +76,27 @@ class Messages
     "Sorry your queue is empty please try your search again by using 'find by'".red
   end
 
+  def print_by_attributes(attribute, available_attributes)
+    "'#{attribute}' is an invalid print by attribute. Please use one of the following attributes: #{available_attributes.join(", ")}."
+  end
+
+  def queue_count(q_results)
+    "The queue currently has #{q_results.count} results."
+  end
+
+  def queue_clear
+    "The queue has been cleared!"
+  end
+
+  def table_cont
+    "To be continuted... Press enter for next page or 'exit' to be promted for next command."
+  end
+
+  def file_loaded(file_path)
+    "Your file '#{file_path}' has been created!"
+  end
+
+  def warning_dup
+    "WARNING FILE ALREADY CREATED PLEASE BE AWARE CONTINUED NAME USE MAY CAUSE DATA DUPLICATION"
+  end
 end

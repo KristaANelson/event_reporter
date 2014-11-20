@@ -46,7 +46,7 @@ class CLI
 
   def queue
     @results_queue.process_queue(@remaining_input, @results)
-    update_results(results_queue.queue_results)
+    update_results(results_queue.q_results)
   end
 
   def find
