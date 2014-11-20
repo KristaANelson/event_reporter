@@ -3,7 +3,7 @@ require 'csv'
 
 class Loader
   attr_accessor :entries
-  attr_reader :file_name, :instream, :outstream, :messages
+  attr_reader :file_name, :instream, :outstream, :messages, :remaining_input
 
   def initialize(instream, outstream)
     @file_name = ""
@@ -21,6 +21,7 @@ class Loader
   end
 
   def process_load(remaining_input)
+    @remaining_input = remaining_input
     case
       when default?     then @file_name = "event_attendees.csv"
       when file_valid?  then @file_name = remaining_input[0]
