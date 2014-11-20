@@ -89,7 +89,7 @@ class Messages
   end
 
   def table_cont
-    "To be continuted... Press enter for next page or 'exit' to be promted for next command."
+    "To be continuted... Press any key for next page."
   end
 
   def file_loaded(file_path)
