@@ -15,7 +15,7 @@ class Cleaner
   def clean_phone(phone)
     if phone.nil? || phone.empty?
       ""
-    else phone.match(/^1?(\d{3})(\d{3})(\d{4})/)
+    else phone.gsub(/\D/, "").match(/^1?(\d{3})(\d{3})(\d{4})/)
       [$1,$2,$3].join("-")
     end
   end
