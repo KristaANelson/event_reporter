@@ -2,7 +2,7 @@ require 'cli'
 require 'messages'
 
 class Finder
-  attr_reader :user_input, :entries, :instream, :outstream, :remaining_input
+  attr_reader :user_input, :entries, :instream, :outstream, :remaining_input, :message
   attr_accessor :finder_results, :attribute, :criteria
 
   def initialize(instream, outstream, entries)
@@ -10,6 +10,7 @@ class Finder
     @outstream = outstream
     @entries = entries
     @finder_results = []
+    @message = Messages.new
   end
 
   def process_find(remaining_input)
