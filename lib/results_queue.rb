@@ -3,13 +3,14 @@ require 'pry'
 require 'finder'
 
 class ResultsQueue
-attr_reader :message, :remaining_input, :instream, :outstream, :file_path
-attr_accessor :queue_results, :save_to_file
+attr_reader :message, :remaining_input, :instream, :outstream, :file_path, :response
+attr_accessor :queue_results, :save_to_file, :response, :rows_left_to_print
 
   def initialize(instream, outstream)
     @instream = instream
     @outstream = outstream
     @message = Messages.new
+    @response = ""
   end
 
   def process_queue(remaining_input, results)
@@ -49,23 +50,39 @@ attr_accessor :queue_results, :save_to_file
     if queue_results.empty?
       outstream.puts message.empty_queue
     else
+    @rows_left_to_print = queue_results.sort_by {|q| q.send(attribute)}
+    until keep_printing?
+      table(rows_left_to_print.shift(10))
+      puts "To be continuted... Press enter for next page or 'exit' to be promted for next command."
+      self.response = gets
+    end
+    unless response.strip == "exit"
+    table(rows_left_to_print.shift(rows_left_to_print.size))
+    puts "End of table"
+    end
+    end
+  end
 
-    rows = []
-    queue_results.sort_by {|q| q.send(attribute)}.each do |entry|
-      rows << [
-        "#{entry.last_name.capitalize}".yellow,
-        "#{entry.first_name.capitalize}".yellow,
-        "#{entry.email}".yellow,
-        "#{entry.zipcode}".yellow,
-        "#{entry.city.capitalize}".yellow,
-        "#{entry.state.upcase}".yellow,
-        "#{entry.street}".yellow,
-        "#{entry.phone}".yellow
-        ]
-      end
+  def table(print_these)
+  rows = []
+  print_these.each do |entry|
+  rows << [
+          "#{entry.last_name.capitalize}".ljust(10).yellow,
+          "#{entry.first_name.capitalize}".ljust(10).yellow,
+          "#{entry.email}".ljust(35).yellow,
+          "#{entry.zipcode}".ljust(7).yellow,
+          "#{entry.city.capitalize}".ljust(15).yellow,
+          "#{entry.state.upcase}".ljust(6).yellow,
+          "#{entry.street}".ljust(45).yellow,
+          "#{entry.phone}".ljust(13).yellow
+          ]
+    end
     table = Terminal::Table.new :title => "Queue Results".green, :headings => ['LAST NAME'.purple, 'FIRST NAME'.purple, 'EMAIL'.purple, 'ZIPCODE'.purple, 'CITY'.purple, 'STATE'.purple, 'ADDRESS'.purple, 'PHONE'.purple], :rows => rows
     puts table
-    end
+end
+
+  def keep_printing?
+    rows_left_to_print.size < 10 || response.strip == 'exit'
   end
 
   def save(remaining_input)

@@ -12,15 +12,19 @@ class Cleaner
     zipcode.to_s.ljust(5,"0")[0..4]
   end
 
-  # def clean_phone(phone)
-  #   if phone.match(/^1?(\d{3})(\d{3})(\d{4})/)
-  #     [$1,$2,$3].join("-")
-  #   end
-  # end
+  def clean_phone(phone)
+    if phone.nil? || phone.empty?
+      ""
+    else phone.match(/^1?(\d{3})(\d{3})(\d{4})/)
+      [$1,$2,$3].join("-")
+    end
+  end
 
   def clean_city(city)
     if city.nil? || city.empty?
       ""
+    elsif city.match(/,/)
+       city.strip.downcase.match(/,/).pre_match
     else
       city.strip.downcase
     end
