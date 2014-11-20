@@ -63,6 +63,6 @@ class TablePrinter
   end
 
   def stop_printing?
-    rows_left_to_print.size < 10 || response.strip == 'exit'
+    rows_left_to_print.size < 10 
   end
 end
