@@ -14,30 +14,24 @@ attr_accessor :queue_results, :save_to_file
 
   def process_queue(remaining_input, results)
     self.queue_results = results
-    if remaining_input.size == 1
-      short_command(remaining_input, queue_results)
-    else
-      long_command(remaining_input)
-    end
-  end
-
-  def short_command(remaining_input, queue_results)
-    if remaining_input == ["count"]
+    if remaining_input[0] == "count"
       count
-    elsif remaining_input == ["clear"]
+    elsif remaining_input[0] == "clear"
       clear
     elsif remaining_input == ["print"]
-      printer
-    else
-      outstream.puts message.invalid_message
-    end
-  end
-
-  def long_command(remaining_input)
-    if remaining_input[0] == "save"
+      printer('last_name')
+    elsif remaining_input[0] == "save"
       save(remaining_input)
+    elsif remaining_input[0] == "print"
+      attribute = remaining_input.pop
+      available_attributes = ['last_Name','first_name','email','zipcode', 'city','state','street', 'phone']
+      if available_attributes.include?(attribute)
+        printer(attribute)
+      else
+        puts "'#{attribute}' is an invalid print by attribute. Please use one of the following attributes: #{available_attributes.join(", ")}."
+      end
     else
-      print_by
+        outstream.puts message.invalid_message
     end
   end
 
@@ -47,17 +41,17 @@ attr_accessor :queue_results, :save_to_file
   end
 
   def clear
-    puts "queue cleared!"
-    #need to find a way to access results in finder and update it.
+    puts "The queue has been cleared!"
     self.queue_results = []
   end
 
-  def printer
+  def printer(attribute='last_name')
     if queue_results.empty?
       outstream.puts message.empty_queue
     else
+
     rows = []
-    queue_results.each do |entry|
+    queue_results.sort_by {|q| q.send(attribute)}.each do |entry|
       rows << [
         "#{entry.last_name.capitalize}",
         "#{entry.first_name.capitalize}",
@@ -71,12 +65,6 @@ attr_accessor :queue_results, :save_to_file
       end
     table = Terminal::Table.new :title => "Queue Results", :headings => ['LAST NAME', 'FIRST NAME', 'EMAIL', 'ZIPCODE', 'CITY', 'STATE', 'ADDRESS', 'PHONE'], :rows => rows
     puts table
-    end
-  end
-
-  def print_by_attribute(attribute)
-    @attendees.sort_by do |attendee|
-      attendee.send(attribute)
     end
   end
 
@@ -96,7 +84,4 @@ attr_accessor :queue_results, :save_to_file
     @file_path = "./data/#{save_to_file}.csv"
   end
 
-
-  def find
-  end
 end

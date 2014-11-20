@@ -14,13 +14,18 @@ class Finder
 
   def process_find(remaining_input)
     break_down_remaining_input(remaining_input)
-    self.finder_results = find_by(attribute, criteria)
   end
 
   def break_down_remaining_input(remaining_input)
     remaining_input.shift
     self.attribute = remaining_input.delete_at(0)
     self.criteria = remaining_input.join(" ")
+    available_attributes = ['reg_date','last_Name','first_name','email','zipcode', 'city','state','street', 'phone']
+    if available_attributes.include?(attribute)
+      self.finder_results = find_by(attribute, criteria)
+    else
+      puts "'#{attribute}' is an invalid search attribute. Please use one of the following attributes: #{available_attributes.join(", ")}."
+    end
   end
 
   def find_by(attribute, criteria)
