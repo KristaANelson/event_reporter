@@ -1,5 +1,6 @@
 require 'csv'
 require 'results_queue'
+require 'entry'
 
 class Saver
 attr_reader :file_path, :save_to_file, :outstream, :message
@@ -10,7 +11,7 @@ attr_reader :file_path, :save_to_file, :outstream, :message
   @message = Messages.new
   end
 
-  def save(remaining_input, q_results)
+  def save_file(remaining_input, q_results)
     determine_file_path(remaining_input)
     CSV.open(file_path, "wb") do |file|
     file << [
@@ -25,6 +26,7 @@ attr_reader :file_path, :save_to_file, :outstream, :message
             'phone'
             ]
     q_results.each do |entry|
+
       file << [
               entry.reg_date,
               entry.last_name,

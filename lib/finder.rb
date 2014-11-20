@@ -1,13 +1,13 @@
-require 'loader'
-require 'pry'
 require 'cli'
-require 'results_queue'
+require 'messages'
 
 class Finder
   attr_reader :user_input, :entries, :instream, :outstream
   attr_accessor :finder_results, :attribute, :criteria
 
-  def initialize(entries)
+  def initialize(instream, outstream, entries)
+    @instream = instream
+    @outstream = outstream
     @entries = entries
     @finder_results = []
   end
@@ -33,7 +33,7 @@ class Finder
     if available_attributes.include?(attribute)
       self.finder_results = find_by(attribute, criteria)
     else
-      puts "'#{attribute}' is an invalid search attribute. Please use one of the following attributes: #{available_attributes.join(", ")}.".red
+      outstream.puts message.invalid_find_by(attribute, available_attributes).red
     end
   end
 

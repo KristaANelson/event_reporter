@@ -1,5 +1,4 @@
 require_relative 'messages'
-require 'pry'
 require_relative 'cli'
 
 class Helper

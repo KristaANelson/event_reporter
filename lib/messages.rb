@@ -12,7 +12,7 @@ class Messages
   end
 
   def intro_message
-    "Welcome to Entry Repository.".red
+    "#{"".center(50, "*")}\n#{'Welcome to Entry Repository'.center(50)}\n#{"".center(50, "*")}"
   end
 
   def next_command
@@ -23,8 +23,8 @@ class Messages
     "File '#{file_name}' has been loaded.".yellow
   end
 
-  def exit
-    "exit"
+  def goodbye
+    "Goodbye"
   end
 
   def invalid_message
@@ -98,5 +98,9 @@ class Messages
 
   def warning_dup
     "WARNING FILE ALREADY CREATED PLEASE BE AWARE CONTINUED NAME USE MAY CAUSE DATA DUPLICATION"
+  end
+
+  def invalid_find_by(attribute, available_attributes)
+    "'#{attribute}' is an invalid search attribute. Please use one of the following attributes: #{available_attributes.join(", ")}."
   end
 end

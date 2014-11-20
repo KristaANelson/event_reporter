@@ -5,7 +5,7 @@ require 'results_queue'
 require 'finder'
 # require 'pry'
 class CLI
-  attr_reader :instream, :outstream, :message, :input, :remaining_input, :helper, :loader, :finder, :results_queue
+  attr_reader :instream, :outstream, :message, :input, :remaining_input, :helper, :loader, :finder, :results_queue, :results
   attr_accessor :command, :entries
 
   def initialize(instream, outstream)
@@ -18,13 +18,13 @@ class CLI
     @remaining_input = []
     @loader          = Loader.new(instream, outstream)
     @entries         = loader.entries
-    @finder          = Finder.new(@entries)
+    @finder          = Finder.new(instream, outstream, entries)
     @results_queue   = ResultsQueue.new(instream, outstream)
     @results         = []
   end
 
   def call
-    outstream.puts message.intro_message
+    outstream.puts message.intro_message.red
     until exit?
       outstream.print message.next_command
       @input = instream.gets.strip
@@ -35,22 +35,22 @@ class CLI
 
   def process_initial_commands
     case
-    when load?  then  @loader.process_load(@remaining_input)
+    when load?  then  @loader.process_load(remaining_input)
     when queue? then  queue
-    when help?  then  @helper.process_help(@remaining_input)
+    when help?  then  @helper.process_help(remaining_input)
     when find?  then  find
-    when exit?  then  outstream.puts message.exit
-    else outstream.puts message.invalid_message
+    when exit?  then  outstream.puts message.goodbye.red
+    else outstream.puts message.invalid_message.red
     end
   end
 
   def queue
-    @results_queue.process_queue(@remaining_input, @results)
+    @results_queue.process_queue(remaining_input, results)
     update_results(results_queue.q_results)
   end
 
   def find
-    @finder.process_find(@remaining_input)
+    @finder.process_find(remaining_input)
     update_results(finder.finder_results)
   end
 
@@ -60,7 +60,7 @@ class CLI
 
   def determine_command
   @remaining_input = @input.downcase.split
-  self.command = @remaining_input.delete_at(0)
+  @command = remaining_input.delete_at(0)
   end
 
   def help?
