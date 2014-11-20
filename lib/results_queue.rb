@@ -27,7 +27,7 @@ attr_accessor :q_results, :rows_left_to_print
     when  remaining_input[0] == "save"   then  saver.save_file(remaining_input, q_results)
     when  remaining_input[0] == "print"  then  table_printer.determine_attribute(remaining_input, q_results)
     else
-      outstream.puts message.invalid_message
+      outstream.puts message.invalid_message.red
     end
   end
 

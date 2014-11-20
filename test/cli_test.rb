@@ -5,7 +5,6 @@ require_relative 'test_helper'
 require 'cli'
 
 class CLITest < Minitest::Test
-
   def test_user_get_help
     cli = CLI.new(nil,nil)
     cli.stub :command, 'help' do
@@ -22,14 +21,10 @@ class CLITest < Minitest::Test
     end
   end
 
-def test_user_can_use_queue
-  cli = CLI.new(nil,nil)
-  cli.stub :command, 'queue' do
-    assert cli.queue?
+  def test_user_can_use_queue
+    cli = CLI.new(nil,nil)
+    cli.stub :command, 'queue' do
+      assert cli.queue?
+    end
   end
-end
-
-
-
-
 end

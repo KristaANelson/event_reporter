@@ -35,12 +35,12 @@ class CLI
 
   def process_initial_commands
     case
-    when load?  then  @loader.process_load(remaining_input)
-    when queue? then  queue
-    when help?  then  @helper.process_help(remaining_input)
-    when find?  then  find
-    when exit?  then  outstream.puts message.goodbye.red
-    else outstream.puts message.invalid_message.red
+      when load?  then  @loader.process_load(remaining_input)
+      when queue? then  queue
+      when help?  then  @helper.process_help(remaining_input)
+      when find?  then  find
+      when exit?  then  outstream.puts message.goodbye.red
+      else outstream.puts message.invalid_message.red
     end
   end
 
@@ -59,8 +59,8 @@ class CLI
   end
 
   def determine_command
-  @remaining_input = @input.downcase.split
-  @command = remaining_input.delete_at(0)
+    @remaining_input = @input.downcase.split
+    @command = remaining_input.delete_at(0)
   end
 
   def help?

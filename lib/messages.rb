@@ -20,7 +20,7 @@ class Messages
   end
 
   def load_message(file_name)
-    "File '#{file_name}' has been loaded.".yellow
+    "File '#{file_name}' has been loaded."
   end
 
   def goodbye
@@ -73,7 +73,7 @@ class Messages
   end
 
   def empty_queue
-    "Sorry your queue is empty please try your search again by using 'find by'".red
+    "Sorry your queue is empty please try your search again by using 'find by'."
   end
 
   def print_by_attributes(attribute, available_attributes)
