@@ -3,7 +3,7 @@ require 'loader'
 require 'helper'
 require 'results_queue'
 require 'finder'
-# require 'pry'
+
 class CLI
   attr_reader :instream, :outstream, :message, :input, :remaining_input, :helper, :loader, :finder, :results_queue, :results
   attr_accessor :command, :entries

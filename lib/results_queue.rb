@@ -1,5 +1,4 @@
 require 'terminal-table'
-require 'pry'
 require 'finder'
 require 'saver'
 require 'table_printer'

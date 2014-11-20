@@ -1,4 +1,3 @@
-require 'pry'
 class TablePrinter
   attr_reader :outstream, :message, :rows_left_to_print, :reg
   attr_accessor :response

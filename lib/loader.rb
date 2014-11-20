@@ -1,4 +1,3 @@
-require 'pry'
 require 'entry'
 require 'csv'
 
